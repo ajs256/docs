@@ -1,7 +1,7 @@
 const path = require('path')
 const { isPlainObject } = require('lodash')
 const supertest = require('supertest')
-const app = require('../../server')
+const app = require('../../lib/app')
 const enterpriseServerReleases = require('../../lib/enterprise-server-releases')
 const nonEnterpriseDefaultVersion = require('../../lib/non-enterprise-default-version')
 const Page = require('../../lib/page')
@@ -46,13 +46,12 @@ describe('redirects', () => {
 
   test('converts single `redirect_from` strings values into arrays', async () => {
     const page = await Page.init({
-      relativePath: 'github/collaborating-with-issues-and-pull-requests/about-conversations-on-github.md',
-      basePath: path.join(__dirname, '../../content'),
+      relativePath: 'article-with-redirect-from-string.md',
+      basePath: path.join(__dirname, '../fixtures'),
       languageCode: 'en'
     })
     page.buildRedirects()
-    const expected = '/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github'
-    expect(page.redirects['/en/articles/about-discussions-in-issues-and-pull-requests']).toBe(expected)
+    expect(page.redirects['/redirect-string']).toBe('/en/article-with-redirect-from-string')
   })
 
   describe('query params', () => {
@@ -158,6 +157,12 @@ describe('redirects', () => {
       const res = await get('/ja/enterprise')
       expect(res.statusCode).toBe(301)
       expect(res.headers.location).toBe(japaneseEnterpriseHome)
+    })
+
+    test('hardcoded @latest redirects to latest version', async () => {
+      const res = await get('/en/enterprise-server@latest')
+      expect(res.statusCode).toBe(301)
+      expect(res.headers.location).toBe(enterpriseHome)
     })
   })
 

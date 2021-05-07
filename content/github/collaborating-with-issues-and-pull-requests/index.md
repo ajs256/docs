@@ -11,15 +11,17 @@ versions:
   free-pro-team: '*'
   enterprise-server: '*'
   github-ae: '*'
+topics:
+  - Pull requests
 ---
 
 
 ### Table of Contents
 
-{% topic_link_in_list /overview %}
+{% topic_link_in_list /getting-started %}
+    {% link_in_list /quickstart-for-communicating-on-github %}
     {% link_in_list /github-flow %}
     {% link_in_list /about-collaborative-development-models %}
-    {% link_in_list /about-conversations-on-github %}
 {% topic_link_in_list /working-with-forks %}
     {% link_in_list /about-forks %}
     {% link_in_list /configuring-a-remote-for-a-fork %}
